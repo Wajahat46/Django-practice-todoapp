@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Todo APP</title>
+    <link rel="stylesheet" href="{% static 'todo/index.css' %}" />
+  </head>
+  <body>
+    <h1>WHAT DO YOU WANT TO DO TODAY ?</h1>
+    <div class="todo">
+      <form class="todo" action="{% url 'add' %}" method="POST" role="form">
+        {% csrf_token %}
+        {{ form.text }}
+        <button class="add-todo" type="submit">Add</button>
+        <br />
+      </form>
+
+      <a href="{% url 'deleteCompleted' %}" style="text-decoration:none"
+        ><button class="delete-todo" type="button">Delete Completed</button></a
+      >
+      <a href="{% url 'deleteAll' %}" style="text-decoration:none"
+        ><button class="delete-todo">Delete Delete All</button></a
+      >
+
+      <ul class="todo">
+        {% for todo in todo_list %} {% if todo.complete %}
+        <li>
+          <strike> {{ todo }} </strike>
+        </li>
+        {% else %}
+        <a href="{% url 'complete' todo.id %}" style="text-decoration:none">
+          <li>{{ todo }}</li>
+        </a>
+        {% endif %} {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
